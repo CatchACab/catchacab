@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cac_msgs</name>
+  <version>0.0.0</version>
+  <description>The cac_msgs package</description>
+
+  <maintainer email="rho2bin@gmail.com">rho2</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+
+
+  <depend>message_generation</depend>
+  <depend>std_msgs</depend>
+
+
+
+  <export>
+    <cpp cflags="-I${prefix}/msg/cpp"/>
+  </export>
+</package>
