@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>cac_meta</name>
+  <version>0.0.0</version>
+  <description>The meta-package for the CatchACab stack</description>
+
+  <maintainer email="rho2bin@gmail.com">rho2</maintainer>
+  <license>MIT</license>
+
+  <depend>cac_detector</depend>
+  <depend>cac_fingers</depend>
+  <depend>cac_chooser</depend>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
