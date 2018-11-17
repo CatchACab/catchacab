@@ -3,7 +3,7 @@ Repository for hackatum 2018
 
 Software for the autonomous detection of potential passengers trying to flag a cab by using hand signals.
 
-We intend to submit our work at two different challanges:
+We intend to submit our work for two different challanges:
 
 Challange1: App-free Car Hailing (AID)
 
