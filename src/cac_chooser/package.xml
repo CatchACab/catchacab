@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>cac_meta</name>
+  <name>cac_chooser</name>
   <version>0.0.0</version>
-  <description>The meta-package for the CatchACab stack</description>
+  <description>The cac_chooser package</description>
 
   <maintainer email="rho2bin@gmail.com">rho2</maintainer>
+
   <license>MIT</license>
 
-  <depend>cac_detector</depend>
-  <depend>cac_fingers</depend>
-  <depend>cac_chooser</depend>
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
 
   <export>
-    <metapackage/>
+
   </export>
 </package>
