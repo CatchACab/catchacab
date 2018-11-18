@@ -9,6 +9,7 @@ import cv2
 import os
 import time
 import pygame
+import sys
 
 dataColor = (0, 255, 0)
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -50,7 +51,7 @@ def main():
     counter = 0
     cv2.namedWindow('Original', cv2.WINDOW_NORMAL)
     predictions = [0, 0, 0, 0, 0, 0]
-
+    f = open("./fingercount", "a")
     start_time = time.time()
     
     clock = pygame.time.Clock()
@@ -59,7 +60,7 @@ def main():
         # Get camera frame
         # ret, frame = cam.read()
 		
-        img = cv2.imread("C:\\Users\gustl\Documents\Intel\OpenVINO\inference_engine_samples_2017\intel64\Release\images\img_" + str(counter) + ".jpg") #io.StringIO(open("C:\\Users\gustl\Documents\Intel\OpenVINO\inference_engine_samples_2017\intel64\Release\images\img_" + str(counter) + ".jpg", 'rb').read())
+        img = cv2.imread(sys.argv[1] + "img_" + str(counter) + ".jpg")#"C:\\Users\gustl\Documents\Intel\OpenVINO\inference_engine_samples_2017\intel64\Release\images\img_" + str(counter) + ".jpg")
         # img = Image.open(file)
         frame = cv2.flip(img, 1)
         window = copy.deepcopy(frame)
@@ -98,8 +99,8 @@ def main():
                 predictions[5] += 1
 
             if time.time() - start_time > 0.75:
-                print(predictions.index(max(predictions)))
-                print(predictions)
+                print(predictions.index(max(predictions)), file=f)
+                #print(predictions)
                 predictions = [0, 0, 0, 0, 0, 0]
                 start_time = time.time()
 
