@@ -32,6 +32,9 @@
 #include "human_pose_estimator.hpp"
 #include "render_human_pose.hpp"
 
+#include <ctime>
+#include <iostream>
+
 using namespace InferenceEngine;
 using namespace human_pose_estimation;
 
@@ -59,6 +62,10 @@ bool ParseAndCheckCommandLine(int argc, char* argv[]) {
     return true;
 }
 
+std::time_t t;
+std::time_t tOld;
+
+
 int main(int argc, char* argv[]) {
 int number = 4;
 int offset = 120;
@@ -73,20 +80,30 @@ int size = 300;
 
         HumanPoseEstimator estimator(FLAGS_m, FLAGS_d, FLAGS_pc);
         cv::VideoCapture cap;
-        if (!(FLAGS_i == "cam" ? cap.open(0) : cap.open(FLAGS_i))) {
+		//std::string path("C:\\Users\\gustl\\Documents\\Intel\\OpenVINO\\inference_engine_samples_2017\\intel64\\Release\\images\\img_0.jpg");
+		//cv::VideoCapture cap(path);
+    	if (!(FLAGS_i == "cam" ? cap.open(0) : cap.open(FLAGS_i))) {
             throw std::logic_error("Cannot open input file or camera: " + FLAGS_i);
         }
 
-	
+		int counter = 0;
 
         int delay = 33;
         double inferenceTime = 0.0;
         cv::Mat image;
+		//int frameCounter = 0;
         while (cap.read(image)) {
+			//frameCounter++;
 int x_val =0;
 	int y_val = 0;
-            
-          
+
+	/*if (frameCounter == cap.get(cv::CAP_PROP_FRAME_COUNT))
+	{
+		//cap = cv::VideoCapture(path);
+		cap.set(cv::CAP_PROP_POS_FRAMES, 0);
+		frameCounter = 0;
+	}*/
+		  
             std::vector<HumanPose> poses = estimator.estimate(image);
            int pose_score = 0;
      
@@ -125,12 +142,29 @@ cv::Mat croppedImage = image(myROI);
 
 			renderHumanPose(poses, image);
 
+			//tOld = t;
+			//t = std::time(0);
+			//t = (t / 100) * 100;
+			//std::time_t deltaTime = t - tOld;
+
+			//std::cout << deltaTime << std::endl;
+
+			//std::this_thread::sleep_for(std::chrono::milliseconds(100 - deltaTime));
+
+			std::stringstream name;
+			name << "images/img_" << counter << ".jpg";
+			imwrite(name.str(), croppedImage);
+
             int key = cv::waitKey(delay) & 255;
             if (key == 'p') {
                 delay = (delay == 0) ? 33 : 0;
             } else if (key == 27) {
                 break;
             }
+
+			if (counter >= 9)
+				counter = 0;
+			else counter++;
         }
     }
     catch (const std::exception& error) {

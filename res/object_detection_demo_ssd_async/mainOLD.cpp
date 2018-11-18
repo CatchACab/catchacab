@@ -71,11 +71,11 @@ void frameToBlob(const cv::Mat& frame,
                  const std::string& inputName) {
     if (FLAGS_auto_resize) {
         /* Just set input blob containing read image. Resize and layout conversion will be done automatically */
-       // inferRequest->SetBlob(inputName, wrapMat2Blob(frame));
+        inferRequest->SetBlob(inputName, wrapMat2Blob(frame));
     } else {
         /* Resize and copy data from the image to the input blob */
-        //Blob::Ptr frameBlob = inferRequest->GetBlob(inputName);
-        //matU8ToBlob<uint8_t>(frame, frameBlob);
+        Blob::Ptr frameBlob = inferRequest->GetBlob(inputName);
+        matU8ToBlob<uint8_t>(frame, frameBlob);
     }
 }
 
@@ -90,12 +90,10 @@ int main(int argc, char *argv[]) {
         }
 
         slog::info << "Reading input" << slog::endl;
-        //cv::VideoCapture cap;
-		std::string path("C:\\Users\\gustl\\Documents\\Intel\\OpenVINO\\inference_engine_samples_2017\\intel64\\Release\\images\\img_0.jpg");
-		cv::VideoCapture cap(path);
-    	//if (!((FLAGS_i == "cam") ? cap.open(0) : cap.open(FLAGS_i.c_str()))) {
-        //    throw std::logic_error("Cannot open input file or camera: " + FLAGS_i);
-        //}
+        cv::VideoCapture cap;
+        if (!((FLAGS_i == "cam") ? cap.open(0) : cap.open(FLAGS_i.c_str()))) {
+            throw std::logic_error("Cannot open input file or camera: " + FLAGS_i);
+        }
         const size_t width  = (size_t) cap.get(cv::CAP_PROP_FRAME_WIDTH);
         const size_t height = (size_t) cap.get(cv::CAP_PROP_FRAME_HEIGHT);
 
@@ -174,10 +172,10 @@ int main(int argc, char *argv[]) {
         auto inputName = inputInfo.begin()->first;
         input->setPrecision(Precision::U8);
         if (FLAGS_auto_resize) {
-            //input->getPreProcess().setResizeAlgorithm(ResizeAlgorithm::RESIZE_BILINEAR);
-            //input->getInputData()->setLayout(Layout::NHWC);
+            input->getPreProcess().setResizeAlgorithm(ResizeAlgorithm::RESIZE_BILINEAR);
+            input->getInputData()->setLayout(Layout::NHWC);
         } else {
-            //input->getInputData()->setLayout(Layout::NCHW);
+            input->getInputData()->setLayout(Layout::NCHW);
         }
         // --------------------------- Prepare output blobs -----------------------------------------------------
         slog::info << "Checking that the outputs are as the demo expects" << slog::endl;
@@ -204,7 +202,7 @@ int main(int argc, char *argv[]) {
             throw std::logic_error("Incorrect output dimensions for SSD");
         }
         output->setPrecision(Precision::FP32);
-        //output->setLayout(Layout::NCHW);
+        output->setLayout(Layout::NCHW);
         // -----------------------------------------------------------------------------------------------------
 
         // --------------------------- 4. Loading model to the plugin ------------------------------------------
@@ -236,8 +234,7 @@ int main(int argc, char *argv[]) {
             // in the regular mode we capture frame to the CURRENT infer request
             if (!cap.read(next_frame)) {
                 if (next_frame.empty()) {
-					cap.set(cv::CAP_PROP_POS_FRAMES, 0);
-                	//isLastFrame = true;  // end of video file
+                    isLastFrame = true;  // end of video file
                 } else {
                     throw std::logic_error("Failed to get frame from cv::VideoCapture");
                 }
@@ -339,7 +336,7 @@ int main(int argc, char *argv[]) {
 				file << "@end" << std::endl;
 				file.close();
             }
-            //cv::imshow("Detection results", curr_frame);
+            cv::imshow("Detection results", curr_frame);
 
             t1 = std::chrono::high_resolution_clock::now();
             ocv_render_time = std::chrono::duration_cast<ms>(t1 - t0).count();
