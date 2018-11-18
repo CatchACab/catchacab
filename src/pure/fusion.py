@@ -50,7 +50,11 @@ def detect():
     while not rospy.is_shutdown():
         for l in f:
             if l.startsWith("@@@"):
-                pass
+                p.append([])
+                p[-1] = [[], [], []]
+                p[-1][0] = [0] * 17
+                p[-1][1] = [0] * 17
+                p[-1][2] = [0] * 17
             elif l.startsWith("@end"):
                 p_fin = True
             elif l.startsWith("@start"):
@@ -60,11 +64,16 @@ def detect():
             elif l.startsWith("$start"):
                 b = []
             elif l.startsWith("@"):
-                s = split(l, " ")
-                p.append(chooser.Person(l[1],l[2],l[3],l[4],l[5],l[6]))
+                l = l.split(":")
+                p[-1][2] = l[1]
+                l = l[0].split("]")
+                l = l[0].split(", ")
+                p[-1][1] = float(l[1])
+                l = l.replace("[")
+                p[-1][0] = float(l[1])
             elif l.startsWith("$"):
-                s = split(l, " ")
-                b.append(chooser.Bounding_box(l[1],l[2],l[3],l[4],l[5],l[6]))
+                s = split(l, ":")
+                b.append(chooser.Bounding_box(l[0].replace("$",""),float(l[1]),float(l[2]),float(l[3]),float(l[4]),float(l[5])))
             elif l.startsWith("]"):
                 print("facial: " + l[1:])
             elif l.startsWith("^"):
