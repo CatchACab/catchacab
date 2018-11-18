@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-import rospy
-from std_msgs.msg import Int32
-
 screen_width = 1280
 screen_height = 720
 
@@ -35,9 +32,6 @@ def create_people(pose_list, bounding_boxes):
 
 
 def detect():
-    pub = rospy.Publisher('/fusion/choice', Int32, queue_size=10)
-    rospy.init_node('cac_fusion')
-    rate = rospy.Rate(10) # 10hz
 
     f = open("/tmp/test", "r")
 
@@ -46,11 +40,13 @@ def detect():
     p = []
     b = []
 
+    px = py = []
+
     counter = 0
     while not rospy.is_shutdown():
         for l in f:
             if l.startsWith("@@@"):
-                # new person
+                
             elif l.startsWith("@end"):
                 p_fin = True
             elif l.startsWith("@start"):
@@ -61,20 +57,17 @@ def detect():
                 b = []
             elif l.startsWith("@"):
                 pass # new wireframe part
-            elif: l.startsWith("$"):
+            elif l.startsWith("$"):
                 pass# new bounding box
+            elif l.startsWith("^"):
+            elif l.startsWith("^"):
         else:
             rate.sleep()
             
         if b_fin and p_fin:
                 create_people(p, b)
 
-        #pub.publish(counter)
         #rate.sleep()
         counter += 1
 
-if __name__ == '__main__':
-    try:
-        detect()
-    except rospy.ROSInterruptException:
-        pass
+detect()
