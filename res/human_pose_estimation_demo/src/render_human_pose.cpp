@@ -56,13 +56,13 @@ void renderHumanPose(const std::vector<HumanPose>& poses, cv::Mat& image) {
         for (size_t keypointIdx = 0; keypointIdx < pose.keypoints.size(); keypointIdx++) {
             if (pose.keypoints[keypointIdx] != absentKeypoint) {
 				file << "@" << pose.keypoints[keypointIdx] << ":" << keypointIdx << std::endl;
-                cv::circle(image, pose.keypoints[keypointIdx], 4, colors[keypointIdx], -1);
+                //cv::circle(image, pose.keypoints[keypointIdx], 4, colors[keypointIdx], -1);
             }
         }
     }
 	file << "@end" << std::endl;
 	file.close();
-    cv::Mat pane = image.clone();
+    /*cv::Mat pane = image.clone();
     for (const auto& pose : poses) {
         for (const auto& limbKeypointsId : limbKeypointsIds) {
             std::pair<cv::Point2f, cv::Point2f> limbKeypoints(pose.keypoints[limbKeypointsId.first],
@@ -83,6 +83,6 @@ void renderHumanPose(const std::vector<HumanPose>& poses, cv::Mat& image) {
             cv::fillConvexPoly(pane, polygon, colors[limbKeypointsId.second]);
         }
     }
-    cv::addWeighted(image, 0.4, pane, 0.6, 0, image);
+    cv::addWeighted(image, 0.4, pane, 0.6, 0, image);*/
 }
 }  // namespace human_pose_estimation
