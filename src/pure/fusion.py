@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+import chooser
+
+class bounding_box:
+    
 
 screen_width = 1280
 screen_height = 720
@@ -56,16 +60,18 @@ def detect():
             elif l.startsWith("$start"):
                 b = []
             elif l.startsWith("@"):
-                pass # new wireframe part
+                s = split(l, " ")
+                p.append(chooser.Person(l[1],l[2],l[3],l[4],l[5],l[6]))
             elif l.startsWith("$"):
-                pass# new bounding box
+                s = split(l, " ")
+                b.append(chooser.Bounding_box(l[1],l[2],l[3],l[4],l[5],l[6]))
             elif l.startsWith("^"):
             elif l.startsWith("^"):
         else:
             rate.sleep()
             
         if b_fin and p_fin:
-                create_people(p, b)
+                chooser.create_people(p, b)
 
         #rate.sleep()
         counter += 1
