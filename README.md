@@ -23,10 +23,7 @@ Challange description:
 - Code it
 - Present to us the scenario and results"
 
-To build the code you need to install ROS on your computer. After that you can use the repo path as your ROS-Workspace.
-```
-catkin build
-devel setup.bash
-rosrun cac_chooser chooser.py
-```
+To build the code, follow the instructions on our wiki page.
+
+
 >>>>>>> b281fc1b683e9844a2fb4d9a424979987ee5f6e7
