@@ -1,5 +1,23 @@
 #!/usr/bin/env python
 
+class Person:
+    def __init__(self, pose, x_min, y_min, x_max, y_max, hand_probability):
+        self.pose = pose
+        self.x_min = x_min
+        self.y_min = y_min
+        self.x_max = x_max
+        self.y_max = y_max
+        self.hand_probability = hand_probability
+
+class Bounding_Box:
+    def __init__(self, name, probability, x_min, y_min, x_max, y_max):
+        self.name = name
+        self.probability = probability
+        self.x_min = x_min
+        self.y_min = y_min
+        self.x_max = x_max
+        self.y_max = y_max
+
 
 blacklist_badness = {"bottle": 1}  # blacklist dictionary: "item_name": badness
 chosen_file = "/tmp/chosen"
