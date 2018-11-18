@@ -48,7 +48,7 @@ void renderHumanPose(const std::vector<HumanPose>& poses, cv::Mat& image) {
     const int stickWidth = 4;
     const cv::Point2f absentKeypoint(-1.0f, -1.0f);
 	std::fstream file;
-	file.open("wireframe", std::fstream::in | std::fstream::out | std::fstream::app);
+	file.open("/tmp/wireframe", std::fstream::in | std::fstream::out | std::fstream::app);
 	file << "@start" << std::endl;
     for (const auto& pose : poses) {
         CV_Assert(pose.keypoints.size() == HumanPoseEstimator::keypointsNumber);
