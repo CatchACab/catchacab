@@ -50,7 +50,7 @@ def detect():
     while not rospy.is_shutdown():
         for l in f:
             if l.startsWith("@@@"):
-                
+                pass
             elif l.startsWith("@end"):
                 p_fin = True
             elif l.startsWith("@start"):
