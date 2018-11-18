@@ -302,7 +302,7 @@ int main(int argc, char *argv[]) {
                 const float *detections = async_infer_request_curr->GetBlob(outputName)->buffer().as<PrecisionTrait<Precision::FP32>::value_type*>();
 				std::fstream file;
 				file.open("boundingboxes", std::fstream::in | std::fstream::out | std::fstream::app);
-            	file << "@start" << std::endl;
+            	file << "$start" << std::endl;
             	for (int i = 0; i < maxProposalCount; i++) {
                     float image_id = detections[i * objectSize + 0];
                     int label = static_cast<int>(detections[i * objectSize + 1]);
@@ -333,10 +333,10 @@ int main(int argc, char *argv[]) {
                                     cv::Scalar(0, 0, 255));
                         cv::rectangle(curr_frame, cv::Point2f(xmin, ymin), cv::Point2f(xmax, ymax), cv::Scalar(0, 0, 255));
 
-						file << "@" << labels[label] << conf.str() << ":" << xmin << ":" << ymin << ":" << xmax << ":" << ymax << std::endl;
+						file << "$" << labels[label] << conf.str() << ":" << xmin << ":" << ymin << ":" << xmax << ":" << ymax << std::endl;
                     }
                 }
-				file << "@end" << std::endl;
+				file << "$end" << std::endl;
 				file.close();
             }
             //cv::imshow("Detection results", curr_frame);
