@@ -65,8 +65,10 @@ def detect():
             elif l.startsWith("$"):
                 s = split(l, " ")
                 b.append(chooser.Bounding_box(l[1],l[2],l[3],l[4],l[5],l[6]))
+            elif l.startsWith("]"):
+                print("facial: " + l)
             elif l.startsWith("^"):
-            elif l.startsWith("^"):
+                print("finger count: " + l)
         else:
             rate.sleep()
             
