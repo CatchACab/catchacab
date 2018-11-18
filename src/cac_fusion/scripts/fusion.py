@@ -3,6 +3,7 @@
 import rospy
 from std_msgs.msg import Int32
 
+screen_width = 1280
 screen_height = 720
 
 # ip: in_person
@@ -22,7 +23,7 @@ def create_people(pose_list, bounding_boxes):
         p.min_y = min(p.pose[1])
         p.max_y = max(p.pose[1])
         p.bounding_boxes = []
-        p.hand_probability = 0.75 + 0.25 * (p.pose[1][4]/screen_height)  # 0.75 + 0.25 * height_of_right_hand_on_screen
+        p.hand_probability = 0.4 + 0.3 * (p.pose[1][4]/screen_height) + 0.3 * abs((screen_width/2)-p.pose[0][4])/(screen_width/2))  # 0.4 + 0.3 * height_of_right_hand_on_screen + 0.3 * width_of_right_hand_on_screen
   
     # assign bounding boxes to people
     for b in bounding_boxes:
